@@ -10,6 +10,6 @@ public class TestController {
 
     @GetMapping("/hello")
     public String sayHello() {
-        return "Chào mừng bạn đến với hệ thống API tạo thiệp cưới v8!";
+        return "Chào mừng bạn đến với hệ thống API tạo thiệp cưới v9!";
     }
 }
