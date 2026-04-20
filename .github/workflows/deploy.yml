@@ -1,0 +1,33 @@
+name: Deploy Wedding BE
+
+on:
+  push:
+    branches: [ main ] # Tự động chạy khi bạn push code vào branch main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Sử dụng SSH để kết nối và điều khiển VPS
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            # 1. Di chuyển vào thư mục code trên VPS
+            cd /home/wedding-be
+            
+            # 2. Kéo code mới nhất từ GitHub
+            git pull origin main
+            
+            # 3. Chạy lệnh Docker để rebuild và restart ứng dụng
+            # --force-recreate đảm bảo container luôn được làm mới
+            docker-compose up -d --build --force-recreate
+            
+            # 4. Dọn dẹp các docker image cũ để tránh đầy ổ cứng VPS
+            docker image prune -f
