@@ -17,20 +17,25 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22 # Đảm bảo cổng SSH đúng
-          script_stop: true # Dừng ngay nếu có lệnh nào trong script bị lỗi
+          port: 22
+          script_stop: true 
           script: |
+            # 1. Di chuyển vào thư mục dự án
             cd /home/ubuntu/wedding-be
             
-            echo "--- Đang kéo code mới ---"
+            echo "--- 📥 Đang kéo code mới từ GitHub ---"
             git pull origin main
             
-            echo "--- Đang build lại Docker (Port 8081) ---"
-            # Thêm --remove-orphans để dọn sạch các container cũ không liên quan
-            docker-compose up -d --build --force-recreate --remove-orphans
+            echo "--- 🛑 Dừng và dọn dẹp container cũ (Tránh lỗi No such image) ---"
+            # Lệnh down giúp reset hoàn toàn trạng thái container cũ
+            docker-compose down --remove-orphans
             
-            echo "--- Dọn dẹp rác ---"
+            echo "--- 🏗️ Đang build và khởi động lại Docker ---"
+            # Sử dụng --build để ép Docker build lại code Java mới nhất
+            docker-compose up -d --build
+            
+            echo "--- 🧹 Dọn dẹp các Image không tên (Dangling Images) ---"
             docker image prune -f
             
-            echo "--- Kiểm tra trạng thái container ---"
-            docker ps | grep wedding-backend
+            echo "--- ✅ Trạng thái các container đang chạy ---"
+            docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
