@@ -20,7 +20,7 @@ jobs:
           port: 22 # Đảm bảo cổng SSH đúng
           script_stop: true # Dừng ngay nếu có lệnh nào trong script bị lỗi
           script: |
-            cd /home/wedding-be
+            cd /home/ubuntu/wedding-be
             
             echo "--- Đang kéo code mới ---"
             git pull origin main
