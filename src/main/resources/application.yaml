@@ -5,9 +5,10 @@ spring:
   application:
     name: wedding-be
   datasource:
-    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:wedding_db}
-    username: ${DB_USER:root}
+    url: jdbc:oracle:thin:@${DB_HOST:localhost}:${DB_PORT:1521}/${DB_NAME:FREEPDB1}
+    username: ${DB_USER:system}
     password: ${DB_PASSWORD:}
+    driver-class-name: oracle.jdbc.OracleDriver
 
 cloudinary:
   cloud_name: ${CLOUDINARY_CLOUD_NAME:}
