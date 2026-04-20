@@ -1,6 +1,15 @@
 server:
-  port: 8081
+  port: ${PORT:8081}
 
 spring:
   application:
     name: wedding-be
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/${DB_NAME:wedding_db}
+    username: ${DB_USER:root}
+    password: ${DB_PASSWORD:}
+
+cloudinary:
+  cloud_name: ${CLOUDINARY_CLOUD_NAME:}
+  api_key: ${CLOUDINARY_API_KEY:}
+  api_secret: ${CLOUDINARY_API_SECRET:}
