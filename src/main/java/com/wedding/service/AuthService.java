@@ -55,14 +55,6 @@ public class AuthService {
      * Đăng nhập: Kiểm tra email + password, trả về thông tin user + fake token.
      */
     public AuthResponse login(LoginRequest request) {
-        // Validate đầu vào
-        if (request.getEmail() == null || request.getEmail().isBlank()) {
-            throw new AppException(400, "Email không được để trống");
-        }
-        if (request.getPassword() == null || request.getPassword().isBlank()) {
-            throw new AppException(400, "Mật khẩu không được để trống");
-        }
-
         // Tìm user theo email
         User user = fakeUsers.stream()
                 .filter(u -> u.getEmail().equalsIgnoreCase(request.getEmail()))
@@ -90,17 +82,6 @@ public class AuthService {
      * Đăng ký: Kiểm tra email trùng, tạo user mới, trả về thông tin + fake token.
      */
     public AuthResponse register(RegisterRequest request) {
-        // Validate đầu vào
-        if (request.getFullName() == null || request.getFullName().isBlank()) {
-            throw new AppException(400, "Họ tên không được để trống");
-        }
-        if (request.getEmail() == null || request.getEmail().isBlank()) {
-            throw new AppException(400, "Email không được để trống");
-        }
-        if (request.getPassword() == null || request.getPassword().length() < 6) {
-            throw new AppException(400, "Mật khẩu phải có ít nhất 6 ký tự");
-        }
-
         // Kiểm tra email đã tồn tại chưa
         boolean emailExists = fakeUsers.stream()
                 .anyMatch(u -> u.getEmail().equalsIgnoreCase(request.getEmail()));
