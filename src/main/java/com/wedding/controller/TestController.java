@@ -10,6 +10,6 @@ public class TestController {
 
     @GetMapping("/hello")
     public String sayHello() {
-        return "CI CD thành công rồi";
+        return "CI CD thành công rồi v2";
     }
 }
